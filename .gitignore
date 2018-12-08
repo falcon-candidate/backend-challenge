@@ -1,6 +1,5 @@
 .DS_Store
 .idea/
-.mvn/
 database/
 target/
 junior-java-backend-assignment.iml
