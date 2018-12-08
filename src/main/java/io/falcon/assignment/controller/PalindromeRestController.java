@@ -3,6 +3,7 @@ package io.falcon.assignment.controller;
 import io.falcon.assignment.model.PalindromeQuery;
 import io.falcon.assignment.model.PalindromeResponse;
 import io.falcon.assignment.model.QueryToResponseConverter;
+import io.falcon.assignment.repository.PalindromeQueryRepository;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,20 +31,17 @@ public class PalindromeRestController {
   @Autowired
   private QueryToResponseConverter queryConverter;
 
-  // will replace this with actual repository
-  private final List<PalindromeQuery> queries;
+  @Autowired
+  private PalindromeQueryRepository palindromeQueryRepo;
 
+  // TODO this doesn't belong here
   private final String DEFAULT_QUERY_FORMAT_ERROR = "{\"error\" : \"invalid format\"}";
-
-  public PalindromeRestController() {
-    queries = new LinkedList<>();
-  }
 
   @GetMapping("/palindrome")
   public List<PalindromeResponse> getPalindromes() {
     // TODO use pageable?
     logger.info("GET request");
-    return queries.stream().map(
+    return palindromeQueryRepo.findAll().stream().map(
         query -> queryConverter.toResponse(query)
     ).collect(Collectors.toList());
   }
@@ -57,7 +55,7 @@ public class PalindromeRestController {
       return new ResponseEntity<>(DEFAULT_QUERY_FORMAT_ERROR, HttpStatus.BAD_REQUEST);
     } else {
       logger.info("Valid POST request");
-      queries.add(palindromeQuery);
+      palindromeQueryRepo.save(palindromeQuery);
       return new ResponseEntity<>(palindromeQuery, HttpStatus.OK);
     }
   }

@@ -1,25 +1,41 @@
 package io.falcon.assignment.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.falcon.assignment.serialization.OffsetDateTimeDeserializer;
 import io.falcon.assignment.serialization.OffsetDateTimeSerializer;
 import java.time.OffsetDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
- * Represents a query submitted via REST api, with payload to find longest palindrome substring in.
+ * Represents a query submitted via REST API, with payload to find longest palindrome substring in.
  */
+@Entity
+@Table(name = "palindromes")
 public class PalindromeQuery {
 
+  @Id
+  @GeneratedValue
+  @JsonIgnore
+  private int id;
+
+  // TODO match json property and column name
+  @Column(name = "text")
   @JsonProperty("content")
   @NotNull
   @Pattern(regexp = "^[A-Za-z]+$")
-  // Ensure that content consists of letters only and is not null when we convert from JSON
+  // Ensure that content consists of letters only and is not null when we parse a POST request
   private String content;
 
+  @Column(name = "request_time_stamp")
   @JsonProperty("timestamp")
   @NotNull
   @JsonDeserialize(using = OffsetDateTimeDeserializer.class)
@@ -28,7 +44,6 @@ public class PalindromeQuery {
   private OffsetDateTime requestTimeStamp;
 
   public PalindromeQuery() {
-
   }
 
   /**
@@ -59,5 +74,6 @@ public class PalindromeQuery {
   public void setRequestTimeStamp(OffsetDateTime requestTimeStamp) {
     this.requestTimeStamp = requestTimeStamp;
   }
+
 }
 

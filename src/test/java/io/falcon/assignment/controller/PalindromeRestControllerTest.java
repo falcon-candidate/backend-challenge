@@ -7,9 +7,13 @@ import io.falcon.assignment.model.PalindromeQuery;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import org.json.JSONException;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -30,15 +34,20 @@ public class PalindromeRestControllerTest {
   @LocalServerPort
   private int port;
 
-  TestRestTemplate restTemplate = new TestRestTemplate();
-  HttpHeaders headers = new HttpHeaders();
+  private String palindromeUrl;
+  private TestRestTemplate restTemplate = new TestRestTemplate();
+  private HttpHeaders headers = new HttpHeaders();
+
+  @Before
+  public void setUp() {
+    palindromeUrl = String.format("http://localhost:%s/palindrome", port);
+  }
 
   @Test
   public void testRetrievePalindromesEmpty() throws JSONException {
-    HttpEntity<String> entity = new HttpEntity<>(null, headers);
+    HttpEntity<String> entity = new HttpEntity<>("", headers);
 
-    ResponseEntity<String> response = restTemplate.exchange(
-        createURLWithPort("/palindrome"),
+    ResponseEntity<String> response = restTemplate.exchange(palindromeUrl,
         HttpMethod.GET, entity, String.class);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -57,8 +66,7 @@ public class PalindromeRestControllerTest {
     HttpEntity<PalindromeQuery> entity = new HttpEntity<>(query, headers);
 
     ResponseEntity<String> response = restTemplate.exchange(
-        createURLWithPort("/palindrome"),
-        HttpMethod.POST, entity, String.class);
+        palindromeUrl, HttpMethod.POST, entity, String.class);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String expected = "{\"content\":\"abc\",\"timestamp\":\"2016-11-06 00:20:30-0500\"}";
@@ -75,25 +83,18 @@ public class PalindromeRestControllerTest {
     HttpEntity<PalindromeQuery> entity = new HttpEntity<>(query, headers);
 
     ResponseEntity<String> response = restTemplate.exchange(
-        createURLWithPort("/palindrome"),
-        HttpMethod.POST, entity, String.class);
+        palindromeUrl, HttpMethod.POST, entity, String.class);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String expected = "{\"content\":\"abc\",\"timestamp\":\"2016-11-06 00:20:30-0500\"}";
     JSONAssert.assertEquals(expected, response.getBody(), true);
 
     ResponseEntity<String> getResponse = restTemplate.exchange(
-        createURLWithPort("/palindrome"),
-        HttpMethod.GET, new HttpEntity<>(null, headers), String.class);
+        palindromeUrl, HttpMethod.GET, new HttpEntity<>("", headers), String.class);
 
     assertEquals(HttpStatus.OK, getResponse.getStatusCode());
     String expectedGet = "[{\"content\":\"abc\",\"timestamp\":\"2016-11-06 00:20:30-0500\",\"longest_palindrome_size\":1}]";
-    System.out.println(getResponse.getBody());
     JSONAssert.assertEquals(expectedGet, getResponse.getBody(), true);
-  }
-
-  private String createURLWithPort(String uri) {
-    return "http://localhost:" + port + uri;
   }
 
 }
