@@ -1,7 +1,7 @@
 README
 ======
 
-Link to GitHub repo: [https://github.com/falcon-candidate/backend-challenge].
+Link to GitHub repo: https://github.com/falcon-candidate/backend-challenge.
 
 # Running
 
