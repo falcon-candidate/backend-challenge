@@ -3,7 +3,7 @@ package io.falcon.assignment.controller;
 import io.falcon.assignment.exception.IllegalPalindromeQueryException;
 import io.falcon.assignment.model.PalindromeQuery;
 import io.falcon.assignment.model.PalindromeResponse;
-import io.falcon.assignment.model.QueryToResponseConverter;
+import io.falcon.assignment.search.PalindromeSearchService;
 import io.falcon.assignment.repository.PalindromeQueryRepository;
 import io.falcon.assignment.websockets.PalindromeBroadcastService;
 import java.io.IOException;
@@ -22,16 +22,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * REST API for posting palindrome queries, and retrieving palindrome responses.
+ * REST API for posting palindrome queries, and retrieving palindrome responses. <p>Uses {@link
+ * PalindromeSearchService} to find maximum palindrome substring lengths, {@link
+ * PalindromeQueryRepository} to persist queries, and {@link PalindromeBroadcastService} to
+ * broadcast incoming queries to listening Websocket clients.</p>
  */
 @RestController
 public class PalindromeRestController {
 
-  // TODO improve logging
   private static final Logger logger = LoggerFactory.getLogger(PalindromeRestController.class);
 
   @Autowired
-  private QueryToResponseConverter queryConverter;
+  private PalindromeSearchService palindromeSearchService;
 
   @Autowired
   private PalindromeQueryRepository palindromeQueryRepo;
@@ -41,17 +43,15 @@ public class PalindromeRestController {
 
   @GetMapping("/palindrome")
   public List<PalindromeResponse> getPalindromes() {
-    // TODO use pageable?
     logger.info("GET request");
     return palindromeQueryRepo.findAll().stream().map(
-        query -> queryConverter.toResponse(query)
+        query -> palindromeSearchService.toResponse(query)
     ).collect(Collectors.toList());
   }
 
   @PostMapping(value = "/palindrome")
   public ResponseEntity<?> storePalindromeQuery(@Valid @RequestBody PalindromeQuery palindromeQuery,
       BindingResult result) throws IllegalPalindromeQueryException {
-    // TODO handle parsing exceptions gracefully
     if (result.hasErrors()) {
       logger.error("POST request with invalid format");
       throw new IllegalPalindromeQueryException();
