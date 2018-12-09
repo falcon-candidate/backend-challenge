@@ -69,9 +69,4 @@ public class PalindromeSubstringSearchDynamicTest {
     Assert.assertEquals(expected, actual);
   }
 
-  @Test
-  public void findMaxPalindromeRandom() {
-    // TODO
-  }
-
 }
