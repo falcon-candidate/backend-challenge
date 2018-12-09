@@ -31,7 +31,7 @@ python poster.py --content foobar --timestamp "2018-10-09 00:12:12+0100"
 
 where foobar is an example string to search palindromes in, and "2018-10-09 00:12:12+0100" is a valid timestamp.
 
-I tested the Python script with Python Python 3.4.3.
+I tested the Python script with Python 3.4.3.
 
 __Note on Format__
 
@@ -45,6 +45,15 @@ Any JSON properties other than `content` and `timestamp` are simply ignored.
 
 Any invalid query will be rejected.
 
+For valid example query is:
+
+```json
+    {
+      "content": "abrakadabra",
+      "timestamp": "2018-10-09 00:12:12+0100"
+    }
+```
+
 ## Retrieve results
 
 The endpoint for this is `http://localhost:8080/palindrome`. You can simply view this in a browser.
@@ -55,7 +64,7 @@ The result is an array of JSON objects which include the properties of the origi
 
 To do this, open `http://localhost:8080/subscribe.html` in your browser.
 
-This will connect a new Websocket client to (`ws://localhost:8080/subscribe_ws`).
+This will connect a new Websocket client to `ws://localhost:8080/subscribe_ws`.
 
 Every time a new valid POST request arrives the web page will display the JSON payload (note that it will not display queries that arrived before the client connected).
 
@@ -83,12 +92,7 @@ Furthermore, caching palindrome queries and responses would be a nice way to imp
 
 # Limitations
 
-The current implementation can benefit from several additional improvements. Unfortunately, I didn't get to implement these. I've documented several improvement ideas as issues on Github. I'm also listing the issues here:
-
-- Improve exception handling, in particular supply more informative error messages to clients that post invalid palindrome queries
-- Use SockJS to work with browsers without Websocket support
-- Use Pageable for GET endpoint
-- Improve/ extends tests (see GitHub for more on this)
+The current implementation can benefit from several additional improvements. Unfortunately, I didn't get to implement these. I've documented several improvement ideas as issues on Github.
 
 # Environment
 
