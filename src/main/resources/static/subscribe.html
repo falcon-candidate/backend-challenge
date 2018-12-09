@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Falcon.io Challenge Web Client</title>
+  <link href="/bootstrap.min.css" rel="stylesheet">
+  <link href="/main.css" rel="stylesheet">
+  <script src="/jquery-1.10.2.min.js"></script>
+  <script src="/app.js"></script>
+</head>
+<body onload='connect("ws://localhost:8080/subscribe_ws", "#palindromes")'>
+<noscript><h2 style="color: #ff0000">Either your browser does not support Javascript or you have it
+  disabled. For this to work please enable Javascript.</h2></noscript>
+<div id="main-content" class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <table id="palindromes-table" class="table table-striped">
+        <thead>
+        <tr>
+          <th>Received Palindrome Queries</th>
+        </tr>
+        </thead>
+        <tbody id="palindromes">
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

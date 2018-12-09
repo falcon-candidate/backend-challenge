@@ -1,10 +1,12 @@
 package io.falcon.assignment.controller;
 
-import io.falcon.assignment.exceptions.IllegalPalindromeQueryException;
+import io.falcon.assignment.exception.IllegalPalindromeQueryException;
 import io.falcon.assignment.model.PalindromeQuery;
 import io.falcon.assignment.model.PalindromeResponse;
 import io.falcon.assignment.model.QueryToResponseConverter;
 import io.falcon.assignment.repository.PalindromeQueryRepository;
+import io.falcon.assignment.websockets.PalindromeBroadcastService;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
@@ -34,8 +36,8 @@ public class PalindromeRestController {
   @Autowired
   private PalindromeQueryRepository palindromeQueryRepo;
 
-  // TODO this doesn't belong here
-  private final String DEFAULT_QUERY_FORMAT_ERROR = "{\"error\" : \"invalid format\"}";
+  @Autowired
+  private PalindromeBroadcastService broadcastService;
 
   @GetMapping("/palindrome")
   public List<PalindromeResponse> getPalindromes() {
@@ -56,6 +58,11 @@ public class PalindromeRestController {
     } else {
       logger.info("Valid POST request");
       palindromeQueryRepo.save(palindromeQuery);
+      try {
+        broadcastService.broadcast(palindromeQuery);
+      } catch (IOException e) {
+        logger.error("Broadcast failed ", e);
+      }
       return new ResponseEntity<>(palindromeQuery, HttpStatus.OK);
     }
   }

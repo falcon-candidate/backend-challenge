@@ -92,5 +92,5 @@ public class PalindromeRestControllerNegativeTest {
     String expected = "{\"error\" : \"something went wrong\"}";
     JSONAssert.assertEquals(expected, response.getBody(), true);
   }
-  
+
 }

@@ -1,4 +1,4 @@
-package io.falcon.assignment.exceptions;
+package io.falcon.assignment.exception;
 
 /**
  * Query body had incorrect format according to format restrictions in {@link
