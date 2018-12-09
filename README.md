@@ -79,9 +79,16 @@ However, the algorithm I implemented is very intuitive and easy to maintain as o
 
 Should performance become an issue (either due to increased load, or arbitrary length queries), I would opt for plugging in Manacher's algorithm instead.
 
+Furthermore, caching palindrome queries and responses would be a nice way to improve performance.
+
 # Limitations
 
-The current implementation can benefit from several additional improvements. I've included these as issues in the Github repo.
+The current implementation can benefit from several additional improvements. Unfortunately, I didn't get to implement these. I've documented several improvement ideas as issues on Github. I'm also listing the issues here:
+
+- Improve exception handling, in particular supply more informative error messages to clients that post invalid palindrome queries
+- Use SockJS to work with browsers without Websocket support
+- Use Pageable for GET endpoint
+- Improve/ extends tests (see GitHub for more on this)
 
 # Environment
 
@@ -93,3 +100,5 @@ I've tested the code with
 - Java HotSpot(TM) 64-Bit Server VM (build 25.131-b11, mixed mode)
 - Python 3.4.3
 - Docker version 18.09.0, build 4d60db4
+- Firefox Quantum 63.0.3
+- Chrome 70.0.3538.110
