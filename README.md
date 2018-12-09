@@ -26,12 +26,16 @@ I tested the Python script with Python Python 3.4.3.
 
 __Note on Format__
 
-The content field must be characters (lower or upper case) and at most 100 characters long.
+The content field must be characters (lower or upper case) and at most 100 characters long. The size restriction
+is to simplify storing queries as well as ensure that the processing time does not increase too much. Handling 
+arbitrary length queries is future work (I've added it as an issue on GitHub).
 
-The timestamp field must adhere to "yyyy-MM-dd HH:mm:ssXXXX" pattern (don't forget to include exactly 
+The timestamp field must adhere to the "yyyy-MM-dd HH:mm:ssXXXX" pattern (don't forget to include exactly 
 four digits for the offset).
 
 A valid query must include both the content and the timestamp properties.
+
+Any JSON properties other than `content` and `timestamp` are simply ignored.
 
 Any invalid query will be rejected.
 

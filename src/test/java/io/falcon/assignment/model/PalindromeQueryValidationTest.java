@@ -36,10 +36,22 @@ public class PalindromeQueryValidationTest {
   }
 
   @Test
-  public void incorrectPalindromeQueryContentBreaks() {
+  public void nonAlphabeticPalindromeQueryContentBreaks() {
     String timeStampString = "2018-10-09 00:12:12+0001";
     OffsetDateTime offsetDateTime = OffsetDateTime.parse(timeStampString, dateTimeFormatter);
     PalindromeQuery query = new PalindromeQuery("aba1", offsetDateTime);
+    validator = factory.getValidator();
+    // TODO improve
+    Set<ConstraintViolation<PalindromeQuery>> violations = validator.validate(query);
+    assertFalse(violations.isEmpty());
+  }
+
+  @Test
+  public void tooLongPalindromeQueryContentBreaks() {
+    String timeStampString = "2018-10-09 00:12:12+0001";
+    OffsetDateTime offsetDateTime = OffsetDateTime.parse(timeStampString, dateTimeFormatter);
+    String longContent = new String(new char[101]).replace("\0", "a");
+    PalindromeQuery query = new PalindromeQuery(longContent, offsetDateTime);
     validator = factory.getValidator();
     // TODO improve
     Set<ConstraintViolation<PalindromeQuery>> violations = validator.validate(query);

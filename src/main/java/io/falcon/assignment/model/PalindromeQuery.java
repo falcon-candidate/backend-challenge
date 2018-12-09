@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * Represents a query submitted via REST API, with payload to find longest palindrome substring in.
@@ -32,6 +33,7 @@ public class PalindromeQuery {
   @JsonProperty("content")
   @NotNull
   @Pattern(regexp = "^[A-Za-z]+$")
+  @Size(min = 1, max = 100)
   // Ensure that content consists of letters only and is not null when we parse a POST request
   private String content;
 
