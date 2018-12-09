@@ -4,10 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import io.falcon.assignment.Application;
 import io.falcon.assignment.PalindromeQueryUtils;
-import io.falcon.assignment.model.PalindromeQuery;
 import java.io.IOException;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
