@@ -45,7 +45,7 @@ Any JSON properties other than `content` and `timestamp` are simply ignored.
 
 Any invalid query will be rejected.
 
-For valid example query is:
+A valid example query is:
 
 ```json
     {
@@ -66,7 +66,7 @@ To do this, open `http://localhost:8080/subscribe.html` in your browser.
 
 This will connect a new Websocket client to `ws://localhost:8080/subscribe_ws`.
 
-Every time a new valid POST request arrives the web page will display the JSON payload (note that it will not display queries that arrived before the client connected).
+Every time a new valid POST request arrives, the web page will display the JSON payload (note that it will not display queries that arrived before the client connected).
 
 # Architecture/ Design Choices
 
