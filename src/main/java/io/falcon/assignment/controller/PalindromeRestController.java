@@ -1,10 +1,10 @@
 package io.falcon.assignment.controller;
 
+import io.falcon.assignment.exceptions.IllegalPalindromeQueryException;
 import io.falcon.assignment.model.PalindromeQuery;
 import io.falcon.assignment.model.PalindromeResponse;
 import io.falcon.assignment.model.QueryToResponseConverter;
 import io.falcon.assignment.repository.PalindromeQueryRepository;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
@@ -48,11 +48,11 @@ public class PalindromeRestController {
 
   @PostMapping(value = "/palindrome")
   public ResponseEntity<?> storePalindromeQuery(@Valid @RequestBody PalindromeQuery palindromeQuery,
-      BindingResult result) {
+      BindingResult result) throws IllegalPalindromeQueryException {
     // TODO handle parsing exceptions gracefully
     if (result.hasErrors()) {
-      logger.error("POST request invalid format");
-      return new ResponseEntity<>(DEFAULT_QUERY_FORMAT_ERROR, HttpStatus.BAD_REQUEST);
+      logger.error("POST request with invalid format");
+      throw new IllegalPalindromeQueryException();
     } else {
       logger.info("Valid POST request");
       palindromeQueryRepo.save(palindromeQuery);

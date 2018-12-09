@@ -1,6 +1,5 @@
 package io.falcon.assignment;
 
-import io.falcon.assignment.controller.PalindromeRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

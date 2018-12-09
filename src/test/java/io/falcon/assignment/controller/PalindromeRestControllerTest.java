@@ -57,7 +57,7 @@ public class PalindromeRestControllerTest {
   }
 
   @Test
-  public void testQueryPalindrome() throws JSONException {
+  public void testPostQueryPalindrome() throws JSONException {
     OffsetDateTime timestamp = OffsetDateTime.of(2016, 11, 6,
         0, 20, 30, 1000,
         ZoneOffset.ofHours(-5));
@@ -74,7 +74,7 @@ public class PalindromeRestControllerTest {
   }
 
   @Test
-  public void testQueryPalindromeStored() throws JSONException {
+  public void testPostedQueryPalindromeStored() throws JSONException {
     OffsetDateTime timestamp = OffsetDateTime.of(2016, 11, 6,
         0, 20, 30, 1000,
         ZoneOffset.ofHours(-5));
